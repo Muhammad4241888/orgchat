@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg0: #0a0f1e;
+  --bg1: #0f1729;
+  --bg2: #131d35;
+  --bg3: #1a2540;
+  --bg4: #1f2d4d;
+  --accent: #00d4ff;
+  --accent2: #7c3aed;
+  --green: #10b981;
+  --red: #ef4444;
+  --orange: #f59e0b;
+  --yellow: #fbbf24;
+  --text0: #f0f6ff;
+  --text1: #94a3b8;
+  --text2: #4a5568;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(0,212,255,0.2);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --r: 8px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg0);color:var(--text0);overflow:hidden;height:100vh;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes slide{from{transform:translateX(-10px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+.fade-up{animation:fadeUp .25s ease;}
+.fade-in{animation:fadeIn .2s ease;}
+
+input,textarea,button{font-family:inherit;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;letter-spacing:.02em;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-ghost{background:transparent;color:var(--text1);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-danger:hover{filter:brightness(1.1);}
+.btn-success{background:var(--green);color:#fff;}
+.btn-warn{background:var(--orange);color:#fff;}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn-icon{padding:6px;border-radius:6px;background:transparent;border:none;color:var(--text1);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;}
+.btn-icon:hover{background:var(--bg4);color:var(--text0);}
+
+.input{width:100%;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text0);font-size:14px;outline:none;transition:border .15s;}
+.input:focus{border-color:var(--accent);}
+.input::placeholder{color:var(--text2);}
+
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;}
+.badge-cyan{background:rgba(0,212,255,.15);color:var(--accent);border:1px solid rgba(0,212,255,.3);}
+.badge-green{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3);}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.badge-orange{background:rgba(245,158,11,.15);color:var(--orange);border:1px solid rgba(245,158,11,.3);}
+.badge-purple{background:rgba(124,58,237,.15);color:#a78bfa;border:1px solid rgba(124,58,237,.3);}
+
+.card{background:var(--bg1);border:1px solid var(--border);border-radius:var(--r);}
+
+.online-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0;}
+.offline-dot{width:8px;height:8px;border-radius:50%;background:var(--text2);flex-shrink:0;}
+.busy-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;}
+.away-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;}
+
+.mono{font-family:'JetBrains Mono',monospace;}
+
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;}
+
+.scroll{overflow-y:auto;scrollbar-width:thin;}
+
+/* Message hover actions — hidden by default, shown on parent hover */
+.msg-actions { opacity: 0; pointer-events: none; transition: opacity .15s; }
+div:hover > div > .msg-actions,
+div:hover > div > div > .msg-actions { opacity: 1; pointer-events: auto; }
+
+/* Allow profile/admin pages to scroll — override body overflow:hidden */
+body.scrollable { overflow: auto !important; height: auto !important; }
