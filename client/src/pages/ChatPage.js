@@ -70,10 +70,7 @@ export default function ChatPage() {
     if (!token) return;
 
     // FIX: avoid hardcoding localhost:5000 — derive from current hostname
-    const socketUrl =
-      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? `${window.location.protocol}//${window.location.hostname}:5000`
-        : window.location.origin;
+    const socketUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000';
 
     const s = io(socketUrl, { auth: { token }, transports: ['websocket'] });
 
