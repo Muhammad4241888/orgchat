@@ -760,7 +760,12 @@ export default function AdminPage() {
           <div style={{ fontSize: 11, color: 'var(--text2)' }}>{user?.username} · {user?.role}</div>
         </div>
         <nav style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
-          {TABS.filter(t => t.id !== 'settings' || user?.role === 'admin').map(t => (
+          {TABS.filter(t => {
+            // These tabs are admin-only — hide from managers
+            const adminOnlyTabs = ['join-requests', 'logs', 'analytics', 'settings'];
+            if (adminOnlyTabs.includes(t.id) && user?.role !== 'admin') return false;
+            return true;
+          }).map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', background: tab === t.id ? 'var(--bg3)' : 'transparent', border: 'none', borderLeft: tab === t.id ? '2px solid var(--accent)' : '2px solid transparent', color: tab === t.id ? 'var(--text0)' : 'var(--text1)', cursor: 'pointer', fontSize: 13, textAlign: 'left', transition: 'all .1s' }}>
               <span style={{ fontSize: 15 }}>{t.icon}</span>
               {t.label}

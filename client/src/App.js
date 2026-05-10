@@ -10,7 +10,8 @@ function Guard({children,admin}){
   const {user,loading}=useAuth();
   if(loading) return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'#00d4ff',fontFamily:'JetBrains Mono,monospace',fontSize:13}}>Connecting...</div>;
   if(!user) return <Navigate to="/" replace/>;
-  if(admin && user.role!=='admin') return <Navigate to="/chat" replace/>;
+  // FIX: managers also need access to the admin dashboard (tasks, meetings, rooms, etc.)
+  if(admin && !['admin','manager'].includes(user.role)) return <Navigate to="/chat" replace/>;
   return children;
 }
 
