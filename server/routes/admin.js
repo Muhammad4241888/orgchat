@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { protect, adminOnly, managerUp } = require('../middleware/auth');
 const { activity } = require('../utils/logger');
 const { User, Org, Room, Message, JoinReq, RoomReq, Task, Meeting, Log, Alert } = require('../models');
+const { sendJoinAccepted, sendJoinRejected } = require('../services/email');
 
 router.use(protect);
 
@@ -61,10 +62,24 @@ router.patch('/join-requests/:id', adminOnly, async (req, res) => {
     if (!req2) return res.status(404).json({ message: 'Not found' });
     req2.status = action; req2.reviewedBy = req.user._id; req2.reviewedAt = new Date();
     await req2.save();
+
+    // Get org name for email
+    const org = await Org.findOne();
+    const appName = org?.appName || 'OrgChat';
+
     if (action === 'approved') {
       await User.findByIdAndUpdate(req2.user, { status: 'active', roomAccess: ['general'] });
       await activity(req.user._id, req.user.username, 'user_approved', `Approved ${req2.username}`);
+      // Send acceptance email — non-blocking, won't crash if email fails
+      sendJoinAccepted(req2.email, req2.username, appName);
     }
+
+    if (action === 'rejected') {
+      await activity(req.user._id, req.user.username, 'user_rejected', `Rejected ${req2.username}`);
+      // Send rejection email — non-blocking
+      sendJoinRejected(req2.email, req2.username, appName);
+    }
+
     res.json({ request: req2 });
   } catch { res.status(500).json({ message: 'Server error' }); }
 });
